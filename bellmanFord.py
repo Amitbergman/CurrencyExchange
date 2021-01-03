@@ -83,12 +83,11 @@ def NegCycleBellmanFord(graph, src):
             v = parent[v]
   
         # Printing the negative cycle
-        print("Found negative cycle, vertices:")       
+        print("Found negative cycle :), vertices:")       
         for vertex in cycle:
             print(vertex, end = " ");             
-        print()   
     else:
-        print("Did not find negative cycle, vertices:")       
+        print("Did not find negative cycle :(")       
 
 import random
 import math
