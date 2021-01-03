@@ -43,30 +43,30 @@ def NegCycleBellmanFord(graph, src):
     for i in range(1, V):
         for j in range(E):
      
-            u = graph.edges[j].src;
-            v = graph.edges[j].dest;
-            weight = graph.edges[j].weight;
+            u = graph.edges[j].src
+            v = graph.edges[j].dest
+            weight = graph.edges[j].weight
   
             if (dist[u] != 1000000 and
                 dist[u] + weight < dist[v]):
              
-                dist[v] = dist[u] + weight;
-                parent[v] = u;
+                dist[v] = dist[u] + weight
+                parent[v] = u
   
     # Check for negative-weight cycles
     vertexOfTheCycle = -1;    
     for i in range(E):   
-        u = graph.edges[i].src;
-        v = graph.edges[i].dest;
-        weight = graph.edges[i].weight;
+        u = graph.edges[i].src
+        v = graph.edges[i].dest
+        weight = graph.edges[i].weight
   
         if (dist[u] != 1000000 and
             dist[u] + weight < dist[v]):
               
             # Store one of the vertex of
             # the negative weight cycle
-            vertexOfTheCycle = v;
-            break;
+            vertexOfTheCycle = v
+            break
           
     if (vertexOfTheCycle != -1):       
         for i in range(V):       
@@ -79,7 +79,7 @@ def NegCycleBellmanFord(graph, src):
         while (True):
             cycle.append(v)
             if (v == vertexOfTheCycle and len(cycle) > 1):
-                break;
+                break
             v = parent[v]
         
         # Reverse cycle
@@ -96,8 +96,8 @@ import random
 import math
 if __name__=='__main__':
       
-    numberOfVertices = 5;
-    numberOfEdges = 5*5; 
+    numberOfVertices = 5
+    numberOfEdges = 5*5 
 
     graph = createGraph(numberOfVertices, numberOfEdges)
   
@@ -111,8 +111,7 @@ if __name__=='__main__':
                 #You can take one dollar and convert it to 1 dollar
                 graph.edges[currentEdgeNumber].weight = 1
             else:
-                graph.edges[currentEdgeNumber].weight = math.log(random.uniform(0, 1))
+                graph.edges[currentEdgeNumber].weight = math.log(random.uniform(0,1))
             currentEdgeNumber = currentEdgeNumber+1
-  
     # Function Call
     NegCycleBellmanFord(graph, 0)
