@@ -81,6 +81,9 @@ def NegCycleBellmanFord(graph, src):
             if (v == vertexOfTheCycle and len(cycle) > 1):
                 break;
             v = parent[v]
+        
+        # Reverse cycle
+        cycle.reverse()
   
         # Printing the negative cycle
         print("Found negative cycle :), vertices:")       
