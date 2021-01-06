@@ -2,7 +2,7 @@ import urllib.request
 import urllib.error
 import urllib.parse
 import json
-from arbitrage.public_markets.market import Market
+from bitcoin_arbitrage.arbitrage.public_markets.market import Market
 
 
 class Binance(Market):

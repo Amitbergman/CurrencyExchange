@@ -88,7 +88,8 @@ def NegCycleBellmanFord(graph, src):
         # Printing the negative cycle
         print("Found negative cycle :), vertices:")       
         for vertex in cycle:
-            print(vertex, end = " ");             
+            print(vertex, end = " ") 
+        return cycle            
     else:
         print("Did not find negative cycle :(")       
 

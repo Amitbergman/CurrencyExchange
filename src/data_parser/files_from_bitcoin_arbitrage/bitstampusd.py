@@ -18,6 +18,9 @@ class BitstampExchange(Bitstamp):
 
 
 if __name__ == "__main__":
-    market = BitstampExchange(exchange_code="btcusd")
-    market.update_depth()
+    # market = BitstampExchange(exchange_code="btcusd")
+    market = BitstampExchange(exchange_code="xrpusd")
+    market = BitstampExchange(exchange_code="xrpbtc")
+    
+    # market.update_depth()
     print(market.get_ticker())
