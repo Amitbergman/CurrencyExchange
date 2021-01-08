@@ -1,6 +1,6 @@
 import numpy as np
 import itertools
-
+import time
 
 def create_random_payouts(num_websites, num_of_options, website_gain, website_difference_in_prob_estimation):
         p_true = np.random.rand(num_of_options)
@@ -26,7 +26,6 @@ def calc_sum_inverse_payouts(selection, inverse_payouts):
     return sum_inverse_payouts
 
 
-
 def brute_force_search(num_websites, num_of_options, payouts_from_websites):
     inverse_payouts = 1 / payouts_from_websites
 
@@ -36,14 +35,15 @@ def brute_force_search(num_websites, num_of_options, payouts_from_websites):
     # calculate the sum inverse payouts of all the options
     sum_inverse_payouts_list = []
     list_of_selections = []
+    t1 = time.time()
     for selection in itertools.product(*all_possible_selections):
         sum_inverse_payouts = calc_sum_inverse_payouts(selection, inverse_payouts)
 
         # save selection of bes and the sum inverse payouts
         list_of_selections.append(selection)
         sum_inverse_payouts_list.append(sum_inverse_payouts)
-
-    print(f"num possible selecitons reviewed = {len(sum_inverse_payouts_list)}")
+    t2 = time.time()
+    print(f"=> {len(sum_inverse_payouts_list)} selections reviewed in {t2 - t1} seconds ")
 
     # find best selection and calculate return
     I = np.argmin(sum_inverse_payouts_list)
@@ -54,23 +54,29 @@ def brute_force_search(num_websites, num_of_options, payouts_from_websites):
     return expected_return_in_percent, best_selection
 
 
+def make_selections_readable(best_selection):
+    return {f"option{i}": f"website{website}" for i, website in enumerate(best_selection)}
+
 if __name__ == "__main__": 
     num_websites = 2
-    num_of_options = 3
+    num_of_options = 10
     website_difference_in_prob_estimation = 0.1
-    website_gain = 0.02
-    verbose = False
+    website_gain = 0.1
+    verbose = True
 
     # generate random payouts_from_websites: shape = (num_websites, num_options)
     payouts_from_websites = create_random_payouts(num_websites, num_of_options, website_gain, website_difference_in_prob_estimation)
 
+
     # visual inspection
     if verbose:
+        
         inverse_payouts = 1. / payouts_from_websites
         sum_inhouse_inverse_payouts = np.sum(inverse_payouts, 1)
         percantage_gain_of_house = np.round((sum_inhouse_inverse_payouts - 1) * 100, 2)
-        print(f"house proffit = {percantage_gain_of_house} percent")
         print(f"shape of inverse payout array = {inverse_payouts.shape}")
+        print(f"house proffit = {percantage_gain_of_house} percent")
+        print(f"payouts_from_websites = \n{payouts_from_websites}\n")
 
     # brute force search for betting arbitrage
     expected_return_in_percent, best_selection = brute_force_search(num_websites, num_of_options, payouts_from_websites)
@@ -79,7 +85,8 @@ if __name__ == "__main__":
     print("\n\n=========================")
     if expected_return_in_percent > 0:
         print("YAY found a profitable selection for betting arbitrage! :)")
-        print(f"websites to select each option = {best_selection}")
+        print(f"best selection = {best_selection}")
+        print(f"websites to select each option = {make_selections_readable(best_selection)}")
         print(f"expected return of investment = +{expected_return_in_percent} %")
     else:
         print(f"OH didn't find a profitable selection for betting arbitrage :(")
